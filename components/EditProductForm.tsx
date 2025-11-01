@@ -2,31 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useStore } from '../store/productStore';
-// import { ProductFormData } from '../types/product';
+import { useStore } from '../store/useStore';
+import { ProductFormData } from '../types/product';
 
-export interface ProductFormData {
-  title: string;
-  description: string;
-  price?: string;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  // Добавляем опциональные поля для формы
-  discountPercentage?: string;
-  rating?: string;
-  stock?: string;
-}
-type PageProps = {
-  paramss: {
-    id: string;
-  };
-};
-
-export default function EditProductForm({paramss }: PageProps) {
+export default function EditProductForm() {
   const router = useRouter();
-  // const params = useParams();
-  const productId = Number(paramss.id);
+  const params = useParams();
+  const productId = Number(params.id);
   
   const { products, updateProduct } = useStore();
   const currentProduct = products.find(p => p.id === productId);
@@ -34,10 +16,10 @@ export default function EditProductForm({paramss }: PageProps) {
   const [formData, setFormData] = useState<ProductFormData>({
     title: '',
     description: '',
-    price: '0', 
-    discountPercentage: '0',
-    rating: '0',
-    stock: '0',
+    price: '0',
+    discountPercentage: 0,
+    rating: 0,
+    stock: 0,
     brand: '',
     category: '',
     thumbnail: ''
@@ -46,16 +28,15 @@ export default function EditProductForm({paramss }: PageProps) {
   const [errors, setErrors] = useState<Partial<ProductFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Заполняем форму данными продукта при загрузке
   useEffect(() => {
     if (currentProduct) {
       setFormData({
         title: currentProduct.title,
         description: currentProduct.description,
-        price: currentProduct.price.toString(),
-        discountPercentage: currentProduct.discountPercentage.toString(),
-        rating: currentProduct.rating.toString(),
-        stock: currentProduct.stock.toString(),
+        price: currentProduct.price,
+        discountPercentage: currentProduct.discountPercentage,
+        rating: currentProduct.rating,
+        stock: currentProduct.stock,
         brand: currentProduct.brand,
         category: currentProduct.category,
         thumbnail: currentProduct.thumbnail
@@ -72,13 +53,6 @@ export default function EditProductForm({paramss }: PageProps) {
     if (!formData.brand.trim()) newErrors.brand = 'Brand is required';
     if (!formData.category.trim()) newErrors.category = 'Category is required';
     if (!formData.thumbnail.trim()) newErrors.thumbnail = 'Image URL is required';
-    if (Number(formData.discountPercentage) < 0 || Number(formData.discountPercentage) > 100) {
-      newErrors.discountPercentage = 'Discount must be between 0 and 100';
-    }
-    if (Number(formData.rating) < 0 || Number(formData.rating) > 5) {
-      newErrors.rating = 'Rating must be between 0 and 5';
-    }
-    if (Number(formData.stock) < 0) newErrors.stock = 'Stock cannot be negative';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -109,12 +83,17 @@ export default function EditProductForm({paramss }: PageProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: ['price', 'discountPercentage', 'rating', 'stock'].includes(name)
-        ? Number(value)
+      [name]: name === 'price' || name === 'discountPercentage' || name === 'rating' || name === 'stock' 
+        ? (value === '' ? 0 : parseFloat(value)) 
         : value
     }));
+    
+    if (errors[name as keyof ProductFormData]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
   if (!currentProduct) {
@@ -138,6 +117,12 @@ export default function EditProductForm({paramss }: PageProps) {
       <div className="max-w-2xl mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Edit Product</h1>
+          <button
+            onClick={() => router.push(`/products/${productId}`)}
+            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+          >
+            Cancel
+          </button>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -257,11 +242,8 @@ export default function EditProductForm({paramss }: PageProps) {
                   min="0"
                   max="100"
                   step="0.01"
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.discountPercentage ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {errors.discountPercentage && <p className="text-red-500 text-sm mt-1">{errors.discountPercentage}</p>}
               </div>
 
               <div>
@@ -276,11 +258,8 @@ export default function EditProductForm({paramss }: PageProps) {
                   min="0"
                   max="5"
                   step="0.1"
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.rating ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
               </div>
 
               <div>
@@ -293,11 +272,8 @@ export default function EditProductForm({paramss }: PageProps) {
                   value={formData.stock}
                   onChange={handleChange}
                   min="0"
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.stock ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {errors.stock && <p className="text-red-500 text-sm mt-1">{errors.stock}</p>}
               </div>
             </div>
 

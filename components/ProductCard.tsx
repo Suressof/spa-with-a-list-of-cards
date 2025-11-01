@@ -1,38 +1,81 @@
-// /components/ProductCard.tsx
+'use client';
+
+import Link from 'next/link';
 import { Product } from '../types/product';
-import { useRouter } from 'next/navigation';
-import { useProductStore } from '../store/productStore';
 
-type Props = { product: Product };
+interface ProductCardProps {
+  product: Product;
+  onLike: (id: number) => void;
+  onDelete: (id: number) => void;
+}
 
-export default function ProductCard({ product }: Props) {
-  const router = useRouter();
-  const toggleLike = useProductStore(state => state.toggleLike);
-  const removeProduct = useProductStore(state => state.removeProduct);
+export default function ProductCard({ product, onLike, onDelete }: ProductCardProps) {
+  const hasValidImage = product.thumbnail && product.thumbnail.trim() !== '';
 
   return (
-    <div
-      className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-md flex flex-col"
-      onClick={() => router.push(`/products/${product.id}`)}
-    >
-      <img src={product.image} className="w-full h-48 object-cover" />
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-bold text-lg line-clamp-2">{product.title}</h3>
-        <p className="text-gray-600 text-sm mt-1 line-clamp-3 flex-1">{product.description}</p>
+    <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+      {hasValidImage ? (
+        <img 
+          src={product.thumbnail} 
+          alt={product.title}
+          className="w-full h-48 object-cover"
+        />
+      ) : (
+        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+          <span className="text-gray-500">No Image</span>
+        </div>
+      )}
+      
+      <div className="p-4">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-semibold text-lg">{product.title}</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={() => onLike(product.id)}
+              className={`p-2 rounded-full ${
+                product.isLiked ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-600'
+              }`}
+            >
+              ♥
+            </button>
+            <button
+              onClick={() => onDelete(product.id)}
+              className="p-2 bg-gray-200 text-gray-600 rounded-full hover:bg-red-100"
+            >
+              ×
+            </button>
+          </div>
+        </div>
 
-        <div className="flex justify-between mt-2">
-          <button
-            onClick={(e) => { e.stopPropagation(); toggleLike(product.id); }}
-            className={`p-1 rounded-full ${product.isLiked ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+          {product.description}
+        </p>
+
+        <div className="flex justify-between items-center">
+          <span className="text-2xl font-bold text-green-600">
+            ${product.price}
+          </span>
+          <span className="text-sm text-gray-500">{product.brand}</span>
+        </div>
+
+        <div className="flex justify-between items-center mt-2 text-sm">
+          <span className="text-yellow-500">★ {product.rating}</span>
+          <span className="text-gray-500">{product.category}</span>
+        </div>
+
+        <div className="flex gap-2 mt-4">
+          <Link 
+            href={`/products/${product.id}`}
+            className="flex-1 text-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
-            ♥
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); removeProduct(product.id); }}
-            className="p-1 rounded-full bg-gray-200 hover:bg-red-100"
+            View
+          </Link>
+          <Link 
+            href={`/products/${product.id}/edit`}
+            className="flex-1 text-center bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors"
           >
-            ×
-          </button>
+            Edit
+          </Link>
         </div>
       </div>
     </div>
