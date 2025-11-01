@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useStore } from '../store/useStore';
+import { useStore } from '../store/productStore';
 // import { ProductFormData } from '../types/product';
 
 export interface ProductFormData {

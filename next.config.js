@@ -1,4 +1,7 @@
-export default {
+const nextConfig = {
   output: 'export',
-  basePath: '/spa-with-a-list-of-cards', // если проект на GitHub Pages
+  basePath: '/spa-with-a-list-of-cards', // имя репозитория
+  trailingSlash: true,
 };
+
+module.exports = nextConfig;
