@@ -1,4 +1,4 @@
-export interface Product {
+export type Product = {
   id: number;
   title: string;
   description: string;
@@ -8,20 +8,20 @@ export interface Product {
   stock: number;
   brand: string;
   category: string;
-  thumbnail: string;
-  images: string[];
+  thumbnail: string;  
+  images?: string[]; // добавляем массив изображений
   isLiked?: boolean;
-}
+};
 
-export interface ProductFormData {
+// Тип для формы редактирования/создания продукта
+export type ProductFormData = {
   title: string;
   description: string;
   price?: string;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  // Добавляем опциональные поля для формы
   discountPercentage?: string;
   rating?: string;
   stock?: string;
-}
+  brand: string;
+  category: string;
+  thumbnail: string;
+};
