@@ -1,9 +1,7 @@
 1:"$Sreact.fragment"
-2:I[47257,["/spa-with-a-list-of-cards/_next/static/chunks/ff1a16fafef87110.js","/spa-with-a-list-of-cards/_next/static/chunks/247eb132b7f7b574.js"],"ClientPageRoot"]
-3:I[63570,["/spa-with-a-list-of-cards/_next/static/chunks/b55d2081e3da92af.js"],"default"]
-6:I[97367,["/spa-with-a-list-of-cards/_next/static/chunks/ff1a16fafef87110.js","/spa-with-a-list-of-cards/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
-7:"$Sreact.suspense"
-0:{"buildId":"gW_FwSbdPLL8iGAhRjMH3","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/spa-with-a-list-of-cards/_next/static/chunks/b55d2081e3da92af.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
-4:{}
-5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
-8:null
+2:I[22016,["/spa-with-a-list-of-cards/_next/static/chunks/7ef85cec2e448138.js"],""]
+3:I[83503,["/spa-with-a-list-of-cards/_next/static/chunks/7ef85cec2e448138.js"],"default"]
+4:I[97367,["/spa-with-a-list-of-cards/_next/static/chunks/ff1a16fafef87110.js","/spa-with-a-list-of-cards/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
+5:"$Sreact.suspense"
+0:{"buildId":"2XFbLe8t7un_aTGjpFz_j","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"min-h-screen bg-gray-50","children":[["$","header",null,{"className":"bg-white shadow-sm","children":["$","div",null,{"className":"container mx-auto px-4 py-4 flex justify-between items-center","children":[["$","h1",null,{"className":"text-2xl font-bold text-gray-800","children":"Products"}],["$","$L2",null,{"href":"/create-product","className":"bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors","children":"Create Product"}]]}]}],["$","main",null,{"className":"container mx-auto px-4 py-8","children":["$","$L3",null,{}]}]]}],[["$","script","script-0",{"src":"/spa-with-a-list-of-cards/_next/static/chunks/7ef85cec2e448138.js","async":true}]],["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"loading":null,"isPartial":false}
+6:null
