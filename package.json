@@ -1,6 +1,6 @@
 {
   "name": "spa-with-a-list-of-cards",
-  "homepage": "https://suressof.github.io/spa-with-a-list-of-cards/",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
