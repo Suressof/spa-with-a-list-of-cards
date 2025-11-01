@@ -4,6 +4,28 @@ import { useEffect, useState } from 'react';
 import { useStore } from '../store/useStore';
 import ProductCard from './ProductCard';
 
+// Интерфейс для данных API
+interface ApiProduct {
+  id: number;
+  title: string;
+  description: string;
+  price?: string;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+
+interface ApiResponse {
+  products: ApiProduct[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
 export default function ProductList() {
   const { 
     products, 
@@ -30,23 +52,18 @@ export default function ProductList() {
         setIsLoading(true);
         setError(null);
         
-        console.log('🔄 FETCHING PRODUCTS FROM API...');
-        
         const response = await fetch('https://dummyjson.com/products?limit=20');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data = await response.json();
-        const productsWithLikes = data.products.map((product: any) => ({
+        const data: ApiResponse = await response.json();
+        const productsWithLikes = data.products.map((product: ApiProduct) => ({
           ...product,
           isLiked: false
         }));
 
-        console.log('📥 API PRODUCTS:', productsWithLikes.length);
-        console.log('🏪 CURRENT STORE PRODUCTS:', products.length);
-        
         addProducts(productsWithLikes);
         
       } catch (err) {
