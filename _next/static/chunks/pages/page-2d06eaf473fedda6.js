@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[753],{373:(_,e,n)=>{"use strict";n.r(e),n.d(e,{default:()=>u});var t=n(7876);function u(){return(0,t.jsx)("h1",{children:"Привет, Next.js + Static Export!"})}},3922:(_,e,n)=>{(window.__NEXT_P=window.__NEXT_P||[]).push(["/page",function(){return n(373)}])}},_=>{_.O(0,[636,593,792],()=>_(_.s=3922)),_N_E=_.O()}]);
